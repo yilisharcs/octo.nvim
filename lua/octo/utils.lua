@@ -299,7 +299,10 @@ function M.get_remote(remote)
   local remotes = M.parse_git_remote()
   for _, name in ipairs(remote or conf.default_remote) do
     if remotes[name] then
-      return remotes[name]
+      local r = remotes[name]
+      if r.host == "github.com" or r.host == conf.github_hostname then
+        return r
+      end
     end
   end
   -- return github.com as default host
